@@ -1,37 +1,136 @@
-## Welcome to GitHub Pages
+<!DOCTYPE html>
+<html>
+    <head>
+	<style>
+      #map {
+        height: 800px;
+        width: 100%;
+       }
+    </style>
+    <script type="text/javascript">
 
-You can use the [editor on GitHub](https://github.com/Hasnishihab/Hasnishihab.github.io/edit/master/README.md) to maintain and preview the content for your website in Markdown files.
+ //the file text data
+ var text;
+ var i;
+ var num;  //number of rows inthe textfile
+ var len;  //length of the textfile
+ var csvdat;
+ var x;
+ var y;
+ var point;
+ var path
+ var linedat;
+ var map;
+ var lines;
+ var centerpoint;
+ var markerpoint;
+ var startpoint;
+ function initMap()
+	 {
+	 
+		centerpoint =new google.maps.LatLng(25.240041,55.36606)
+	    var zm=16;
+		map = new google.maps.Map(document.getElementById('map'), {
+		
+          zoom: zm,
+          center: centerpoint,
+		  
+        });
+		
+		lines = new google.maps.Polyline({
+				
+				//geodesic: true,
+				strokeColor: '#FF0000',
+				strokeOpacity: 1.0,
+				strokeWeight: 2
+				});
+			lines.setMap(map);
+			
+		var marker1 = new google.maps.Marker({
+          position: markerpoint,
+          map: map
+        });
+      }	   
+ //start reading the textfile
+ var openFile = function(event)
+     {
+        var input = event.target;
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+        var reader = new FileReader();
+        reader.onload = function()
+		 {
+          text = reader.result;
+		  text = text.replace(/\r/g, '');
+		  linedat = text.split(/\n/g);
+		  linedat = linedat.filter(Boolean);
+		  //document.write(linedat);
+		  //document.write("<br>");
+		  len = linedat.length;  
+		  
+		  csvdat = linedat[0].split(",");
+		  x = parseFloat(csvdat[3]);
+		  y = parseFloat(csvdat[4]);
+		  
+		  
+		  startpoint = new google.maps.LatLng(x,y);
+		 
+		  
+		  for(i=0;i<len;i++)
+			{
+					
+			csvdat = linedat[i].split(",");
+			
+			x = parseFloat(csvdat[3]);
+			
+			y = parseFloat(csvdat[4]);
+			
+			if ((!isNaN(csvdat[3]))&&(!isNaN(csvdat[4]))) {
+			//document.write(csvdat[3]);
+			//document.write(csvdat[4]);
+			point=new google.maps.LatLng(x,y);
+			//document.write(point);
+			path = lines.getPath();
+			path.push(point);
+			//document.write(path);
+			}	
+		    
+		   }
+		   markerpoint = new google.maps.LatLng(x,y);
+		   
+		   //centerpoint = new google.maps.LatLng(x,y);
+		   //map.panTo(centerpoint);
+		   
+		   var marker1 = new google.maps.Marker({
+		   position: markerpoint,
+		   map: map
+		   });
+		   
+		   var bound = new google.maps.LatLngBounds(markerpoint,startpoint);
+		   map.fitBounds(bound);
+		  
+		   };
+		   		
+	 //for printing the outpu
+		 reader.readAsText(input.files[0]);
+	 };	 
+	</script>
+ </head>
+   <body>
+    <input type='file' accept='text/plain' onchange='openFile(event)'><br>
+	 <div id="map"></div>
+	 <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA1VMJrkw2K8qgbPXQGheDYn9C80aLMMUQ&callback=initMap">
+    </script>
+   </body>
+   </html>
 
-### Markdown
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
 
-```markdown
-Syntax highlighted code block
 
-# Header 1
-## Header 2
-### Header 3
 
-- Bulleted
-- List
 
-1. Numbered
-2. List
 
-**Bold** and _Italic_ and `Code` text
 
-[Link](url) and ![Image](src)
-```
 
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
 
-### Jekyll Themes
 
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/Hasnishihab/Hasnishihab.github.io/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
-
-### Support or Contact
-
-Having trouble with Pages? Check out our [documentation](https://help.github.com/categories/github-pages-basics/) or [contact support](https://github.com/contact) and we’ll help you sort it out.
