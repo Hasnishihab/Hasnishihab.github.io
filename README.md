@@ -2,18 +2,17 @@
 <head>
 </head>
 <body>
- <p>The serial number is: </p>
-      <script>
- 
-var queryString = decodeURIComponent(window.location.search);
-queryString = queryString.substring(1);
-var queries = queryString.split("&");
-for (var i = 0; i < queries.length; i++)
-{
-  document.write(queries[i] + "<br>");
-}
- 
-</script> 
+<div id="lat"></div>
+<div id="lng"></div>
+<p>the values in the client is</p>
+<br>
+    <script>
+      document.getElementById("lat").innerHTML = localStorage.getItem("lattitude");
+	  document.getElementById("lng").innerHTML = localStorage.getItem("longitude");
+	  //document.write(name + "<br>");
+         
+     </script> 
   
-</body>
+  </body>
 </html>
+
